@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ZapolyarnyNewsBot
+
+server:
+  port: 8081
+
+telegram:
+  bot:
+    username: ZapolyarnyNewsBot
+    token: 8125380161:AAHaeYMPKMFp_8-yI1o3P6Fyv7dL4DWgcrc
