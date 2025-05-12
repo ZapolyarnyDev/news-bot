@@ -10,12 +10,14 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
+
 @Component
 public class NewsBot extends TelegramLongPollingBot {
 
     private final BotProperties botProperties;
     @Autowired
-    private CommandHandler startCommandHandler;
+    private List<CommandHandler> commandHandlers;
 
     public NewsBot(BotProperties botProperties) {
         super(botProperties.getToken());
@@ -27,10 +29,13 @@ public class NewsBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
 
-            if (text.equals("/start")) {
-                var response = startCommandHandler.handle(update);
-                sendMessage(response);
-            }
+            commandHandlers.stream()
+                    .filter(handler -> handler.getCommand().equals(text))
+                    .findFirst()
+                    .ifPresent(handler -> {
+                        var response = handler.handle(update);
+                        sendMessage(response);
+                    });
         }
     }
     @Override

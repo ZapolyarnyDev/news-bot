@@ -1,11 +1,15 @@
 package io.github.zapolyarnydev.handler;
 
 import io.github.zapolyarnydev.response.BotResponse;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@Component
-public interface CommandHandler {
+@RequiredArgsConstructor
+@Getter
+public abstract class CommandHandler {
 
-    BotResponse handle(Update update);
+    private final String command;
+
+    public abstract BotResponse handle(Update update);
 }
