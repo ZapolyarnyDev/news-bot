@@ -2,7 +2,6 @@ package io.github.zapolyarnydev.bot;
 
 import io.github.zapolyarnydev.configuration.BotProperties;
 import io.github.zapolyarnydev.handler.CommandHandler;
-import io.github.zapolyarnydev.response.BotResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -33,21 +32,18 @@ public class NewsBot extends TelegramLongPollingBot {
                     .filter(handler -> handler.getCommand().equals(text))
                     .findFirst()
                     .ifPresent(handler -> {
-                        var response = handler.handle(update);
-                        sendMessage(response);
+                        var message = handler.handle(update);
+                        sendMessage(message);
                     });
         }
     }
+
     @Override
     public String getBotUsername() {
         return botProperties.getUsername();
     }
 
-    public void sendMessage(BotResponse botResponse){
-        SendMessage message = new SendMessage();
-        message.setChatId(botResponse.chatId());
-        message.setText(botResponse.text());
-
+    public void sendMessage(SendMessage message){
         try {
             execute(message);
         } catch (TelegramApiException e) {
