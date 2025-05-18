@@ -1,10 +1,21 @@
 spring:
   application:
     name: ZapolyarnyNewsBot
+  datasource:
+    url: jdbc:postgresql://localhost:5432/news-bot-db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   messages:
     encoding: UTF-8
     basename: i18n/messages
     fallback-to-system-locale: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8081

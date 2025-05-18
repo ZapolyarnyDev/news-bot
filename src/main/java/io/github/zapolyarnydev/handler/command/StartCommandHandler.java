@@ -1,23 +1,29 @@
-package io.github.zapolyarnydev.handler;
+package io.github.zapolyarnydev.handler.command;
 
+import io.github.zapolyarnydev.action.SendAction;
+import io.github.zapolyarnydev.action.TelegramAction;
+import io.github.zapolyarnydev.handler.CommandHandler;
 import io.github.zapolyarnydev.service.KeyboardService;
 import io.github.zapolyarnydev.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.List;
+
 @Component
 public class StartCommandHandler extends CommandHandler {
-    private final MessageService messageService;
-    private final KeyboardService keyboardService;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private KeyboardService keyboardService;
 
-    public StartCommandHandler(MessageService messageService, KeyboardService keyboardService) {
+    public StartCommandHandler() {
         super("/start");
-        this.messageService = messageService;
-        this.keyboardService = keyboardService;
     }
 
-    public SendMessage handle(Update update) {
+    public List<TelegramAction> handle(Update update) {
         var message = update.getMessage();
         var chat = message.getChat();
         var sendMessage = new SendMessage();
@@ -26,9 +32,9 @@ public class StartCommandHandler extends CommandHandler {
 
         sendMessage.setChatId(chat.getId());
         sendMessage.setText(responseText);
-        sendMessage.setReplyMarkup(keyboardService.getMainKeyboard());
+        sendMessage.setReplyMarkup(keyboardService.getMainKeyboard(chat.getId()));
 
-        return sendMessage;
+        return List.of(new SendAction(sendMessage));
     }
 
 
