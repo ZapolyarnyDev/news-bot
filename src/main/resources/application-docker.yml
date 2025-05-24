@@ -2,9 +2,9 @@ spring:
   application:
     name: ZapolyarnyNewsBot
   datasource:
-    url: jdbc:postgresql://localhost:5432/news-bot-db
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   messages:
     encoding: UTF-8
@@ -22,5 +22,5 @@ server:
 
 telegram:
   bot:
-    username: ZapolyarnyNewsBot
-    token: 8125380161:AAHaeYMPKMFp_8-yI1o3P6Fyv7dL4DWgcrc
+    username: ${TELEGRAM_BOT_USERNAME}
+    token: ${TELEGRAM_BOT_TOKEN}

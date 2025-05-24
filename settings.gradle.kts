@@ -1,1 +1,1 @@
-rootProject.name = "zapolyarnydev"
+rootProject.name = "ZapolyarnyNewsBot"
