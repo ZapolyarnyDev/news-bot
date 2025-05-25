@@ -51,7 +51,7 @@ public class NewsBot extends TelegramLongPollingBot {
     private void handleCallback(Update update){
         String callbackData = update.getCallbackQuery().getData();
         callbackHandlers.stream()
-                .filter(handler -> handler.getCallbackData().equals(callbackData))
+                .filter(handler -> handler.getCallbackData().contains(callbackData))
                 .findFirst()
                 .ifPresent(handler -> {
                     List<TelegramAction> actions = handler.handle(update);

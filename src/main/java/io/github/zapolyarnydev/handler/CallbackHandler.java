@@ -7,11 +7,12 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.Serializable;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
 public abstract class CallbackHandler extends UpdateHandler{
 
-    private final String callbackData;
+    private final List<String> callbackData;
 
 }

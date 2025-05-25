@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.handler.callback;
+package io.github.zapolyarnydev.handler.callback.category;
 
 import io.github.zapolyarnydev.action.EditAction;
 import io.github.zapolyarnydev.action.TelegramAction;
@@ -16,16 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SubscribeInfoHandler extends CallbackHandler {
+public class CategoriesHandler extends CallbackHandler {
     @Autowired
     private SubscriptionService subscriptionService;
     @Autowired
     private MessageService messageService;
     @Autowired
     private KeyboardService keyboardService;
-
-    public SubscribeInfoHandler() {
-        super("main_mysubscription");
+    public CategoriesHandler() {
+        super(List.of("main_categories"));
     }
 
     @Override
@@ -43,12 +42,8 @@ public class SubscribeInfoHandler extends CallbackHandler {
         editMessage.setChatId(chatId);
         editMessage.setMessageId(messageId);
 
-        String subscribeEnableInfo = subscriptionService.isSubscribed(chatId)
-                ? messageService.getMessage("has-subscribe")
-                : messageService.getMessage("no-subscribe");
-
-        editMessage.setText(messageService.getMessage("subscribe-info", subscribeEnableInfo));
-        editMessage.setReplyMarkup(keyboardService.getMainKeyboard(chatId));
+        editMessage.setText(messageService.getMessage("categories-info"));
+        editMessage.setReplyMarkup(keyboardService.getCategoryKeyboard(chatId));
 
         List<TelegramAction> response = new ArrayList<>();
         if(messageId != null) response.add(new EditAction(editMessage));
