@@ -1,5 +1,6 @@
 package io.github.zapolyarnydev.service;
 
+import io.github.zapolyarnydev.news.NewsFrequency;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -11,8 +12,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class KeyboardService {
+
     private final MessageService messageService;
+
+    private final NewsFrequencyService newsFrequencyService;
+
     private final SubscriptionService subscriptionService;
+
+    private final CategoryService categoryService;
 
     public InlineKeyboardMarkup getMainKeyboard(Long chatId, String... excludedCommands) {
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
@@ -32,19 +39,31 @@ public class KeyboardService {
     public InlineKeyboardMarkup getCategoryKeyboard(Long chatId){
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
         var commands = new ArrayList<>(List.of("sport", "economy", "it", "politics"));
-        String unsubCategory = "     " + messageService.getMessage("unsub-category");
-        String subCategory = "     " +  messageService.getMessage("sub-category");
+        String unsubCategory = "     " + messageService.getMessage("check");
+        String subCategory = "     " +  messageService.getMessage("cross");
         for(String s : commands){
-            String message = subscriptionService.hasSubscribeOnCategory(chatId, s)
+            String message = categoryService.hasSubscribeOnCategory(chatId, s)
                     ? messageService.getMessage("category-menu." + s) + unsubCategory
                     : messageService.getMessage("category-menu." + s) + subCategory;
-            rows.add(List.of(initializeButton(message, "category-select_" + s)));
+            rows.add(List.of(initializeButton(message, "category-select-" + s)));
         }
         rows.add(List.of(initializeButton(messageService.getMessage("return-back"), "main_open")));
         return new InlineKeyboardMarkup(rows);
     }
 
+    public InlineKeyboardMarkup getScheduleKeyboard(Long chatId){
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+        for(var frequency : NewsFrequency.values()){
+            String frequencyId = frequency.name().toLowerCase();
 
+            if(newsFrequencyService.getNewsFrequency(chatId) == frequency) continue;
+
+            String message = messageService.getMessage("frequency-menu." + frequencyId);
+            rows.add(List.of(initializeButton(message, "frequency-select-" + frequencyId)));
+        }
+        rows.add(List.of(initializeButton(messageService.getMessage("return-back"), "main_open")));
+        return new InlineKeyboardMarkup(rows);
+    }
 
     private List<String> getActualMainCommands(Long chatId){
         List<String> actualCommands = new ArrayList<>();

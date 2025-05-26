@@ -3,9 +3,8 @@ package io.github.zapolyarnydev.handler.callback.subscribe;
 import io.github.zapolyarnydev.action.EditAction;
 import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CallbackHandler;
-import io.github.zapolyarnydev.service.KeyboardService;
-import io.github.zapolyarnydev.service.MessageService;
-import io.github.zapolyarnydev.service.SubscriptionService;
+import io.github.zapolyarnydev.handler.callback.frequency.FrequencySelectHandler;
+import io.github.zapolyarnydev.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -17,6 +16,10 @@ import java.util.List;
 
 @Component
 public class SubscribeInfoHandler extends CallbackHandler {
+    @Autowired
+    private NewsFrequencyService newsFrequencyService;
+    @Autowired
+    private CategoryService categoryService;
     @Autowired
     private SubscriptionService subscriptionService;
     @Autowired
@@ -47,7 +50,26 @@ public class SubscribeInfoHandler extends CallbackHandler {
                 ? messageService.getMessage("has-subscribe")
                 : messageService.getMessage("no-subscribe");
 
-        editMessage.setText(messageService.getMessage("subscribe-info", subscribeEnableInfo));
+        String cross = messageService.getMessage("cross");
+        String check = messageService.getMessage("check");
+
+        boolean sportCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "sport");
+        boolean economyCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "economy");
+        boolean itCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "it");
+        boolean politicsCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "politics");
+
+        editMessage.setText(messageService.getMessage("subscribe-info",
+                subscribeEnableInfo,
+                messageService.getMessage("category-menu.sport"),
+                sportCategoryEnabled ? check : cross,
+                messageService.getMessage("category-menu.economy"),
+                economyCategoryEnabled ? check : cross,
+                messageService.getMessage("category-menu.it"),
+                itCategoryEnabled ? check : cross,
+                messageService.getMessage("category-menu.politics"),
+                politicsCategoryEnabled ? check : cross,
+                messageService.getMessage("frequency-menu." + newsFrequencyService.getNewsFrequency(chatId).name().toLowerCase())
+        ));
         editMessage.setReplyMarkup(keyboardService.getMainKeyboard(chatId, "mysubscription"));
 
         List<TelegramAction> response = new ArrayList<>();
