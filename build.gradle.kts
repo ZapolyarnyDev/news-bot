@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+	implementation ("org.jsoup:jsoup:1.17.2")
+	implementation("com.rometools:rome:2.1.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.telegram:telegrambots:6.9.7.0")

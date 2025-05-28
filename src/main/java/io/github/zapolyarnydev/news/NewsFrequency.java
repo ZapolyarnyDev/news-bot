@@ -1,8 +1,11 @@
 package io.github.zapolyarnydev.news;
 
+import lombok.Getter;
+
+@Getter
 public enum NewsFrequency {
 
-    VERY_OFTEN(5),
+    VERY_OFTEN(10),
     OFTEN(30),
     HOURLY(60),
     SOMETIMES(180),

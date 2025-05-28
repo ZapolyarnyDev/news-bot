@@ -1,6 +1,7 @@
 package io.github.zapolyarnydev.service;
 
 import io.github.zapolyarnydev.news.NewsFrequency;
+import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -38,7 +39,7 @@ public class KeyboardService {
 
     public InlineKeyboardMarkup getCategoryKeyboard(Long chatId){
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();
-        var commands = new ArrayList<>(List.of("sport", "economy", "it", "politics"));
+        var commands = new ArrayList<>(List.of("sport", "economy", "it"));
         String unsubCategory = "     " + messageService.getMessage("check");
         String subCategory = "     " +  messageService.getMessage("cross");
         for(String s : commands){

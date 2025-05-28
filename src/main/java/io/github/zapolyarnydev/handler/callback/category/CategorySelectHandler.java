@@ -34,7 +34,7 @@ public class CategorySelectHandler extends CallbackHandler {
 
     public CategorySelectHandler() {
         super(List.of("category-select-sport", "category-select-economy",
-                "category-select-it", "category-select-politics"));
+                "category-select-it"));
     }
 
     @Override

@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,7 @@ public class CategoryService {
         } else {
             var entity = new SubscriptionEntity(chatId, false);
             entity.getSubscribedCategories().add(categoryId);
+            entity.setLastNewsSendDateTime(LocalDateTime.now());
             repository.save(entity);
         }
     }

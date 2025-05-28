@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.service;
+package io.github.zapolyarnydev.service.news;
 
 import io.github.zapolyarnydev.entity.SubscriptionEntity;
 import io.github.zapolyarnydev.news.NewsFrequency;
@@ -6,6 +6,7 @@ import io.github.zapolyarnydev.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,7 @@ public class NewsFrequencyService {
         } else {
             var entity = new SubscriptionEntity(chatId, false);
             entity.setNewsFrequency(frequency);
+            entity.setLastNewsSendDateTime(LocalDateTime.now());
             repository.save(entity);
         }
     }

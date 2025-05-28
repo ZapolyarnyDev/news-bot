@@ -3,8 +3,8 @@ package io.github.zapolyarnydev.handler.callback.subscribe;
 import io.github.zapolyarnydev.action.EditAction;
 import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CallbackHandler;
-import io.github.zapolyarnydev.handler.callback.frequency.FrequencySelectHandler;
 import io.github.zapolyarnydev.service.*;
+import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -56,7 +56,6 @@ public class SubscribeInfoHandler extends CallbackHandler {
         boolean sportCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "sport");
         boolean economyCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "economy");
         boolean itCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "it");
-        boolean politicsCategoryEnabled = categoryService.hasSubscribeOnCategory(chatId, "politics");
 
         editMessage.setText(messageService.getMessage("subscribe-info",
                 subscribeEnableInfo,
@@ -66,8 +65,6 @@ public class SubscribeInfoHandler extends CallbackHandler {
                 economyCategoryEnabled ? check : cross,
                 messageService.getMessage("category-menu.it"),
                 itCategoryEnabled ? check : cross,
-                messageService.getMessage("category-menu.politics"),
-                politicsCategoryEnabled ? check : cross,
                 messageService.getMessage("frequency-menu." + newsFrequencyService.getNewsFrequency(chatId).name().toLowerCase())
         ));
         editMessage.setReplyMarkup(keyboardService.getMainKeyboard(chatId, "mysubscription"));

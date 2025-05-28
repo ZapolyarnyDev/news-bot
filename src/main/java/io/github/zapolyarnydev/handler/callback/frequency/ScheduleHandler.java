@@ -5,7 +5,7 @@ import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CallbackHandler;
 import io.github.zapolyarnydev.service.KeyboardService;
 import io.github.zapolyarnydev.service.MessageService;
-import io.github.zapolyarnydev.service.NewsFrequencyService;
+import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;

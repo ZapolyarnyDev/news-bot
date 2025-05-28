@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -21,7 +22,9 @@ public class SubscriptionService {
             entity.get().setSubscribed(true);
             repository.save(entity.get());
         } else {
-            repository.save(new SubscriptionEntity(chatId, true));
+            var newEntity = new SubscriptionEntity(chatId, true);
+            newEntity.setLastNewsSendDateTime(LocalDateTime.now());
+            repository.save(newEntity);
         }
     }
 
@@ -31,7 +34,9 @@ public class SubscriptionService {
             entity.get().setSubscribed(false);
             repository.save(entity.get());
         } else {
-            repository.save(new SubscriptionEntity(chatId, false));
+            var newEntity = new SubscriptionEntity(chatId, false);
+            newEntity.setLastNewsSendDateTime(LocalDateTime.now());
+            repository.save(newEntity);
         }
     }
 
