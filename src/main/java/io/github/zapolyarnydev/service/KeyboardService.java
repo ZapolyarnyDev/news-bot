@@ -1,6 +1,6 @@
 package io.github.zapolyarnydev.service;
 
-import io.github.zapolyarnydev.news.NewsFrequency;
+import io.github.zapolyarnydev.model.NewsFrequency;
 import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

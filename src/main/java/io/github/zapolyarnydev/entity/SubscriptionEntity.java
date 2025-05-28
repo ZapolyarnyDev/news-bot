@@ -1,8 +1,7 @@
 package io.github.zapolyarnydev.entity;
 
-import io.github.zapolyarnydev.news.NewsFrequency;
+import io.github.zapolyarnydev.model.NewsFrequency;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

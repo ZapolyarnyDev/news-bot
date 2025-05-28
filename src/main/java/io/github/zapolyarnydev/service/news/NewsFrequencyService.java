@@ -1,7 +1,7 @@
 package io.github.zapolyarnydev.service.news;
 
 import io.github.zapolyarnydev.entity.SubscriptionEntity;
-import io.github.zapolyarnydev.news.NewsFrequency;
+import io.github.zapolyarnydev.model.NewsFrequency;
 import io.github.zapolyarnydev.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.news;
+package io.github.zapolyarnydev.model;
 
 import lombok.Getter;
 

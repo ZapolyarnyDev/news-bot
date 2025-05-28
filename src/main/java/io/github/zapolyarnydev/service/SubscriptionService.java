@@ -1,9 +1,7 @@
 package io.github.zapolyarnydev.service;
 
 import io.github.zapolyarnydev.entity.SubscriptionEntity;
-import io.github.zapolyarnydev.news.NewsFrequency;
 import io.github.zapolyarnydev.repository.SubscriptionRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

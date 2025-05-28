@@ -3,7 +3,7 @@ package io.github.zapolyarnydev.handler.callback.frequency;
 import io.github.zapolyarnydev.action.EditAction;
 import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CallbackHandler;
-import io.github.zapolyarnydev.news.NewsFrequency;
+import io.github.zapolyarnydev.model.NewsFrequency;
 import io.github.zapolyarnydev.service.*;
 import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import org.springframework.beans.factory.annotation.Autowired;
