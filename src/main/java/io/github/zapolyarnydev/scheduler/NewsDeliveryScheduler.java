@@ -18,8 +18,12 @@ import org.jsoup.safety.Safelist;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +46,8 @@ public class NewsDeliveryScheduler {
         String[] categories = {"sport", "it", "economy"};
         List<FetchedNewsWrapper> fetchedNewsWrappers = new ArrayList<>();
         for(String s : categories){
-            fetchedNewsWrappers.add(new FetchedNewsWrapper(newsFetcherService.fetchByCategory(s), s));
+            var news = newsFetcherService.fetchByCategory(s);
+            fetchedNewsWrappers.add(new FetchedNewsWrapper(news, s));
         }
         subscriptionRepository.findAll().forEach(subscriptionEntity -> {
             if(newsDeliveryService.shouldSendNews(subscriptionEntity.getChatId())){
@@ -80,38 +85,58 @@ public class NewsDeliveryScheduler {
         sentNewsRepository.save(entity);
     }
 
-    private void sendNews(SubscriptionEntity entity, News news){
+    private void sendNews(SubscriptionEntity entity, News news) {
         entity.setLastNewsSendDateTime(LocalDateTime.now());
         try {
-            newsBot.execute(SendMessage.builder()
-                    .chatId(entity.getChatId())
-                    .text(formatNewsMessage(news))
-                    .parseMode("HTML")
-                    .replyMarkup(keyboardService.getNewsKeyboard(news))
-                    .build());
+            if (news.imageUrl() != null && isValidImageUrl(news.imageUrl())) {
+                SendPhoto sendPhoto = new SendPhoto();
+                sendPhoto.setChatId(entity.getChatId());
+                sendPhoto.setPhoto(new InputFile(news.imageUrl()));
+                sendPhoto.setCaption(formatNewsMessage(news));
+                sendPhoto.setParseMode("HTML");
+                sendPhoto.setReplyMarkup(keyboardService.getNewsKeyboard(news));
+                newsBot.execute(sendPhoto);
+            } else {
+                newsBot.execute(SendMessage.builder()
+                        .chatId(entity.getChatId())
+                        .text(formatNewsMessage(news))
+                        .parseMode("HTML")
+                        .replyMarkup(keyboardService.getNewsKeyboard(news))
+                        .build());
+            }
         } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to send news: " + e.getMessage(), e);
+        }
+    }
+
+    private boolean isValidImageUrl(String url) {
+        try {
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                return false;
+            }
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            return responseCode == HttpURLConnection.HTTP_OK;
+        } catch (Exception e) {
+            return false;
         }
     }
 
     private String formatNewsMessage(News news) {
         String description = sanitizeForTelegram(news.description());
-        return String.format(
-                "<b>%s</b>\n%s",
-                news.title(),
-                description
-        );
+        String fullText = String.format("<b>%s</b>\n%s\n", news.title(), description);
+
+        if (fullText.length() > 450) {
+            fullText = fullText.substring(0, 450) + "...";
+        }
+        return fullText;
     }
 
     private String sanitizeForTelegram(String html) {
         if(html.equals(" ")) return html;
         String allowed = Jsoup.clean(html, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
-        return "\n" + escapeHtml(allowed) + "\n";
-    }
-
-    private String escapeHtml(String input) {
-        return input.replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;");
+        return "\n" + allowed + "\n";
     }
 }
