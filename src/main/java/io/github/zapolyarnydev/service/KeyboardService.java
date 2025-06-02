@@ -1,5 +1,6 @@
 package io.github.zapolyarnydev.service;
 
+import io.github.zapolyarnydev.model.News;
 import io.github.zapolyarnydev.model.NewsFrequency;
 import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,17 @@ public class KeyboardService {
             rows.add(List.of(initializeButton(message, "category-select-" + s)));
         }
         rows.add(List.of(initializeButton(messageService.getMessage("return-back"), "main_open")));
+        return new InlineKeyboardMarkup(rows);
+    }
+
+    public InlineKeyboardMarkup getNewsKeyboard(News news){
+        List<List<InlineKeyboardButton>> rows = new ArrayList<>();
+
+        var urlButton = initializeButton(messageService.getMessage("to-source"), null);
+        urlButton.setUrl(news.url());
+
+        rows.add(List.of(urlButton));
+        rows.add(List.of(initializeButton(messageService.getMessage("setup-settings"),  "setup_settings")));
         return new InlineKeyboardMarkup(rows);
     }
 

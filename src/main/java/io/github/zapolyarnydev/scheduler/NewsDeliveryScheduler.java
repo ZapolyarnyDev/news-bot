@@ -2,10 +2,12 @@ package io.github.zapolyarnydev.scheduler;
 
 import io.github.zapolyarnydev.bot.NewsBot;
 import io.github.zapolyarnydev.entity.SentNewsEntity;
+import io.github.zapolyarnydev.entity.SubscriptionEntity;
 import io.github.zapolyarnydev.model.FetchedNewsWrapper;
 import io.github.zapolyarnydev.model.News;
 import io.github.zapolyarnydev.repository.SentNewsRepository;
 import io.github.zapolyarnydev.repository.SubscriptionRepository;
+import io.github.zapolyarnydev.service.KeyboardService;
 import io.github.zapolyarnydev.service.news.NewsDeliveryService;
 import io.github.zapolyarnydev.service.news.NewsFetcherService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class NewsDeliveryScheduler {
     private final NewsDeliveryService newsDeliveryService;
     private final NewsBot newsBot;
     private final NewsFetcherService newsFetcherService;
+    private final KeyboardService keyboardService;
 
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     public void processDeliveries(){
@@ -50,7 +53,7 @@ public class NewsDeliveryScheduler {
                     Optional<News> selectedNews = getRandomNews(chatId, wrapper.news());
 
                     if(selectedNews.isPresent()){
-                        sendNews(chatId, selectedNews.get());
+                        sendNews(subscriptionEntity, selectedNews.get());
                         markAsSent(chatId, selectedNews.get());
                     }
                 }
@@ -77,12 +80,14 @@ public class NewsDeliveryScheduler {
         sentNewsRepository.save(entity);
     }
 
-    private void sendNews(Long chatId, News news){
+    private void sendNews(SubscriptionEntity entity, News news){
+        entity.setLastNewsSendDateTime(LocalDateTime.now());
         try {
             newsBot.execute(SendMessage.builder()
-                    .chatId(chatId)
+                    .chatId(entity.getChatId())
                     .text(formatNewsMessage(news))
                     .parseMode("HTML")
+                    .replyMarkup(keyboardService.getNewsKeyboard(news))
                     .build());
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
@@ -90,19 +95,18 @@ public class NewsDeliveryScheduler {
     }
 
     private String formatNewsMessage(News news) {
-        String safeDescription = sanitizeForTelegram(news.description());
+        String description = sanitizeForTelegram(news.description());
         return String.format(
-                "<b>%s</b>\n%s\n<a href=\"%s\">Источник</a>",
+                "<b>%s</b>\n%s",
                 news.title(),
-                safeDescription,
-                news.url()
+                description
         );
     }
 
     private String sanitizeForTelegram(String html) {
-
+        if(html.equals(" ")) return html;
         String allowed = Jsoup.clean(html, "", Safelist.none(), new Document.OutputSettings().prettyPrint(false));
-        return escapeHtml(allowed);
+        return "\n" + escapeHtml(allowed) + "\n";
     }
 
     private String escapeHtml(String input) {

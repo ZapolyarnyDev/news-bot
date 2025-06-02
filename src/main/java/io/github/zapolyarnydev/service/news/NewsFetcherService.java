@@ -58,6 +58,7 @@ public class NewsFetcherService {
         return sentNewsRepository.existsById(newsId);
     }
 
+
     private News convertToNews(SyndEntry entry, String category) {
         String description = entry.getDescription() == null ? " " : entry.getDescription().getValue();
         return new News(entry.getTitle(),
