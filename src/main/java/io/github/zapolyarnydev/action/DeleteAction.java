@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @RequiredArgsConstructor
-public class DeleteAction implements TelegramAction{
+public final class DeleteAction implements TelegramAction{
 
     private final DeleteMessage message;
 

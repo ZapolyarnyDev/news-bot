@@ -5,7 +5,7 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import io.github.zapolyarnydev.model.News;
 import io.github.zapolyarnydev.repository.SentNewsRepository;
-import io.github.zapolyarnydev.service.MessageService;
+import io.github.zapolyarnydev.service.message.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jdom2.Element;

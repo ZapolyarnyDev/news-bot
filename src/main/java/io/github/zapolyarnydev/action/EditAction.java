@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @RequiredArgsConstructor
-public class EditAction implements TelegramAction{
+public final class EditAction implements TelegramAction{
 
     private final EditMessageText message;
 

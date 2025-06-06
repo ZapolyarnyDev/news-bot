@@ -1,8 +1,7 @@
-package io.github.zapolyarnydev.service;
+package io.github.zapolyarnydev.service.news;
 
 import io.github.zapolyarnydev.entity.SubscriptionEntity;
 import io.github.zapolyarnydev.repository.SubscriptionRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class CategoryService {
+public class NewsCategoryService {
 
     @Autowired
     private SubscriptionRepository repository;

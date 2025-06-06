@@ -7,9 +7,9 @@ import io.github.zapolyarnydev.model.FetchedNewsWrapper;
 import io.github.zapolyarnydev.model.News;
 import io.github.zapolyarnydev.repository.SentNewsRepository;
 import io.github.zapolyarnydev.repository.SubscriptionRepository;
-import io.github.zapolyarnydev.service.KeyboardService;
-import io.github.zapolyarnydev.service.news.NewsDeliveryService;
+import io.github.zapolyarnydev.service.message.KeyboardService;
 import io.github.zapolyarnydev.service.news.NewsFetcherService;
+import io.github.zapolyarnydev.service.news.NewsFrequencyService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jsoup.Jsoup;
@@ -36,8 +36,8 @@ import java.util.concurrent.TimeUnit;
 public class NewsDeliveryScheduler {
     private final SubscriptionRepository subscriptionRepository;
     private final SentNewsRepository sentNewsRepository;
-    private final NewsDeliveryService newsDeliveryService;
     private final NewsBot newsBot;
+    private final NewsFrequencyService newsFrequencyService;
     private final NewsFetcherService newsFetcherService;
     private final KeyboardService keyboardService;
 
@@ -50,7 +50,7 @@ public class NewsDeliveryScheduler {
             fetchedNewsWrappers.add(new FetchedNewsWrapper(news, s));
         }
         subscriptionRepository.findAll().forEach(subscriptionEntity -> {
-            if(newsDeliveryService.shouldSendNews(subscriptionEntity.getChatId())){
+            if(newsFrequencyService.shouldSendNews(subscriptionEntity.getChatId())){
                 for(var wrapper : fetchedNewsWrappers){
                     if(!subscriptionEntity.getSubscribedCategories().contains(wrapper.category())) continue;
                     Long chatId = subscriptionEntity.getChatId();

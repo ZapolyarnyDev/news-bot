@@ -1,8 +1,10 @@
-package io.github.zapolyarnydev.service;
+package io.github.zapolyarnydev.service.message;
 
 import io.github.zapolyarnydev.model.News;
 import io.github.zapolyarnydev.model.NewsFrequency;
+import io.github.zapolyarnydev.service.news.NewsCategoryService;
 import io.github.zapolyarnydev.service.news.NewsFrequencyService;
+import io.github.zapolyarnydev.service.news.NewsSubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -19,9 +21,9 @@ public class KeyboardService {
 
     private final NewsFrequencyService newsFrequencyService;
 
-    private final SubscriptionService subscriptionService;
+    private final NewsSubscriptionService subscriptionService;
 
-    private final CategoryService categoryService;
+    private final NewsCategoryService categoryService;
 
     public InlineKeyboardMarkup getMainKeyboard(Long chatId, String... excludedCommands) {
         List<List<InlineKeyboardButton>> rows = new ArrayList<>();

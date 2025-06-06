@@ -3,8 +3,8 @@ package io.github.zapolyarnydev.handler.command;
 import io.github.zapolyarnydev.action.SendAction;
 import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CommandHandler;
-import io.github.zapolyarnydev.service.KeyboardService;
-import io.github.zapolyarnydev.service.MessageService;
+import io.github.zapolyarnydev.service.message.KeyboardService;
+import io.github.zapolyarnydev.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.List;
 
 @Component
-public class StartCommandHandler extends CommandHandler {
+public final class StartCommandHandler extends CommandHandler {
     @Autowired
     private MessageService messageService;
     @Autowired

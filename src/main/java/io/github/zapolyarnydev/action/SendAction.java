@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @RequiredArgsConstructor
-public class SendAction implements TelegramAction{
+public final class SendAction implements TelegramAction{
     private final SendMessage message;
 
     @Override

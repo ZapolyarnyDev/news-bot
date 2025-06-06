@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.util.List;
 
 @Component
-public class NewsBot extends TelegramLongPollingBot {
+public final class NewsBot extends TelegramLongPollingBot {
 
     private final BotProperties botProperties;
     @Autowired

@@ -3,8 +3,11 @@ package io.github.zapolyarnydev.handler.callback.subscribe;
 import io.github.zapolyarnydev.action.EditAction;
 import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CallbackHandler;
-import io.github.zapolyarnydev.service.*;
+import io.github.zapolyarnydev.service.message.KeyboardService;
+import io.github.zapolyarnydev.service.message.MessageService;
+import io.github.zapolyarnydev.service.news.NewsCategoryService;
 import io.github.zapolyarnydev.service.news.NewsFrequencyService;
+import io.github.zapolyarnydev.service.news.NewsSubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -15,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SubscribeInfoHandler extends CallbackHandler {
+public final class SubscribeInfoHandler extends CallbackHandler {
     @Autowired
     private NewsFrequencyService newsFrequencyService;
     @Autowired
-    private CategoryService categoryService;
+    private NewsCategoryService categoryService;
     @Autowired
-    private SubscriptionService subscriptionService;
+    private NewsSubscriptionService subscriptionService;
     @Autowired
     private MessageService messageService;
     @Autowired

@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.service;
+package io.github.zapolyarnydev.service.news;
 
 import io.github.zapolyarnydev.entity.SubscriptionEntity;
 import io.github.zapolyarnydev.repository.SubscriptionRepository;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class SubscriptionService {
+public class NewsSubscriptionService {
 
     @Autowired
     private SubscriptionRepository repository;

@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.service;
+package io.github.zapolyarnydev.service.message;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

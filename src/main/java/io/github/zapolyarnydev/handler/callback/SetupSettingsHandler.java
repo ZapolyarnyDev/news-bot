@@ -3,8 +3,8 @@ package io.github.zapolyarnydev.handler.callback;
 import io.github.zapolyarnydev.action.SendAction;
 import io.github.zapolyarnydev.action.TelegramAction;
 import io.github.zapolyarnydev.handler.CallbackHandler;
-import io.github.zapolyarnydev.service.KeyboardService;
-import io.github.zapolyarnydev.service.MessageService;
+import io.github.zapolyarnydev.service.message.KeyboardService;
+import io.github.zapolyarnydev.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SetupSettingsHandler extends CallbackHandler {
+public final class SetupSettingsHandler extends CallbackHandler {
     @Autowired
     private MessageService messageService;
     @Autowired
