@@ -63,6 +63,7 @@ public class KeyboardService {
 
         rows.add(List.of(urlButton));
         rows.add(List.of(initializeButton(messageService.getMessage("setup-settings"),  "setup_settings")));
+        rows.add(List.of(initializeButton(messageService.getMessage("delete-news"),  "delete_news")));
         return new InlineKeyboardMarkup(rows);
     }
 
