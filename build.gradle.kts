@@ -33,6 +33,8 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.mockito:mockito-inline:5.2.0")
+	testImplementation("org.mockito:mockito-junit-jupiter:5.2.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
