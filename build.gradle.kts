@@ -38,6 +38,18 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+tasks.register<Test>("botTests") {
+	description = "Runs bot tests"
+	group = "verification"
+
+	testClassesDirs = sourceSets.test.get().output.classesDirs
+	classpath = sourceSets.test.get().runtimeClasspath
+
+	useJUnitPlatform {
+		includeTags("botTest")
+	}
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }

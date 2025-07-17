@@ -5,6 +5,7 @@ import io.github.zapolyarnydev.configuration.BotProperties;
 import io.github.zapolyarnydev.handler.callback.subscribe.SubscribeHandler;
 import io.github.zapolyarnydev.handler.command.StartCommandHandler;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Тестирование обработки действий в боте")
+@Tag("botTest")
 public class NewsBotHandleTest {
 
     private NewsBot newsBot;
