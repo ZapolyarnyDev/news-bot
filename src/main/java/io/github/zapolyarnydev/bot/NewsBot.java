@@ -1,7 +1,6 @@
 package io.github.zapolyarnydev.bot;
 
 import io.github.zapolyarnydev.action.TelegramAction;
-import io.github.zapolyarnydev.action.executor.ActionExecutor;
 import io.github.zapolyarnydev.configuration.BotProperties;
 import io.github.zapolyarnydev.handler.CallbackHandler;
 import io.github.zapolyarnydev.handler.CommandHandler;

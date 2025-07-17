@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum NewsFrequency {
 
-    VERY_OFTEN(1),
+    VERY_OFTEN(10),
     OFTEN(30),
     HOURLY(60),
     SOMETIMES(180),

@@ -1,20 +1,15 @@
-package io.github.zapolyarnydev;
+package io.github.zapolyarnydev.bot;
 
-import io.github.zapolyarnydev.action.EditAction;
-import io.github.zapolyarnydev.action.SendAction;
 import io.github.zapolyarnydev.action.TelegramAction;
-import io.github.zapolyarnydev.bot.NewsBot;
 import io.github.zapolyarnydev.configuration.BotProperties;
 import io.github.zapolyarnydev.handler.callback.subscribe.SubscribeHandler;
 import io.github.zapolyarnydev.handler.command.StartCommandHandler;
-import io.github.zapolyarnydev.model.News;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -26,6 +21,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Тестирование обработки действий в боте")
 public class NewsBotHandleTest {
 
     private NewsBot newsBot;
@@ -39,6 +35,7 @@ public class NewsBotHandleTest {
     private TelegramAction telegramAction;
 
     @Test
+    @DisplayName("Обработка команды /start")
     public void shouldCallStartCommandHandler_WhenStartCommandReceived() throws TelegramApiException {
         newsBot = buildBot();
 
@@ -55,6 +52,7 @@ public class NewsBotHandleTest {
     }
 
     @Test
+    @DisplayName("Обработка подписки на новости")
     public void shouldCallSubscribeHandler_WhenSubscribeCallbackReceived(){
         newsBot = buildBot();
 
@@ -71,6 +69,7 @@ public class NewsBotHandleTest {
     }
 
     @Test
+    @DisplayName("Применение действия Telegram дважды при двух обработчиках")
     public void shouldApplyTelegramActionTwice_WhenTwoHandlersReturnActions() throws TelegramApiException {
         newsBot = buildBot();
 
